@@ -16,15 +16,17 @@ Sys.setenv("plotly_api_key"="7sj2jo08xg")
 
 ### Read in electricity data ### 
 
-country <- readline("Type in which country you would like to analyze. Currently available: Democratic Republic of the Congo, 
-                    Ethiopia, Turkmenistan, Myanmar, Mongolia, & Uzbekistan")
+country <- readline("Type in which country you would like to analyze. Currently available: World, Democratic Republic of the Congo, 
+                    Ethiopia, Turkmenistan, Myanmar, Mongolia, & Uzbekistan. If you would like to keep all of the data, please type in 'All'")
 
 #file_location <- file.choose()
-file_location <- paste0("C:\\Users\\Amina\\Documents\\Global Energy Analysis\\SIRF 2016\\ElectricStats_", 
-                        country,"_08_2016_IEA.csv")
+file_location <- paste0("C:\\Users\\Amina\\Documents\\Global Energy Analysis\\SIRF 2016\\ElectricStats_All_08_2016_IEA.csv")
 orig_data <- read.csv(file_location, header = TRUE, strip.white = TRUE)
 
 electric_data <- orig_data
+if(country != "All" || country != 'all') {
+  electric_data <- electric_data[which(electric_data$COUNTRY == country),]
+}
 
 ### Adjust types for NA and 0 values ###
 reval <- function(y) {
