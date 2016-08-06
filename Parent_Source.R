@@ -28,6 +28,16 @@ if(country != "All" || country != 'all') {
   electric_data <- electric_data[which(electric_data$COUNTRY == country),]
 }
 
+### Read in Oil Demand Data ###
+
+file_location <- paste0("C:\\Users\\Amina\\Documents\\Global Energy Analysis\\SIRF 2016\\OilDemand_AllCountries_08_2016_IEA.csv")
+orig_oil_data <- read.csv(file_location, header = TRUE, strip.white = TRUE, check.names = FALSE)
+
+oil_data <- orig_oil_data
+if(country != "All" || country != 'all') {
+  oil_data <- oil_data[which(oil_data$COUNTRY == country),]
+}
+
 ### Adjust types for NA and 0 values ###
 reval <- function(y) {
   revalue(y, c("x" = NA))
