@@ -21,10 +21,10 @@ for(j in 1:uni_flow) {
   numrows <- as.numeric(nrow(temp_flow_data))
   
   #second for loop does the actual aggregation
-  for(i in seq(1, numrows, 3)) {
+  for(i in seq(1, numrows, 2)) {
     
     #separate out parts of data to be combined
-    to_combine <- temp_flow_data[i:(i+2),4:71]
+    to_combine <- temp_flow_data[i:(i+1),4:71]
     combined <- as.data.frame(apply(to_combine, 2, mean, na.rm = TRUE))
     
     #reformat data for combining

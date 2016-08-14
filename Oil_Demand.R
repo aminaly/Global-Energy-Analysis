@@ -8,6 +8,15 @@ source('~/Global Energy Analysis/Project 2 - Current/EnergyAnalysis/Parent_Sourc
 oil_data <- melt(oil_data, id.vars = c("COUNTRY", "FLOW (kbbl/d)", "PRODUCT"))
 colnames(oil_data) <- c("COUNTRY", "FLOW (kbbl/d)", "PRODUCT", "TIME", "DEMAND")
 
+### Adding column for growth rate from the previous year ###
+oil_data$Growth_Rate <- NA
+oil_data$DEMAND <- as.numeric(oil_data$DEMAND)
+for (i in 1:(nrow(oil_data)-1)) {
+  
+  oil_data[i+1,6] <- (((oil_data[i+1,5]/oil_data[i,5])^(.1)) - 1) 
+  
+}
+
 ### Aggregate every 3 years (average) ###
 
 agg_oil <- NULL
@@ -26,5 +35,7 @@ for(i in seq(1, numrows, 3)) {
     #add aggregated flow to new table
     agg_oil <- rbind(agg_oil, new_row)
 }
+
+
 
   

@@ -9,6 +9,7 @@ require(reshape2)
 require(plyr)
 require(plotly)
 require(data.table)
+require(RColorBrewer)
 
 # Set environment to allow data to be pushed to plot_ly
 Sys.setenv("plotly_username"="amina.ly")
@@ -16,8 +17,10 @@ Sys.setenv("plotly_api_key"="7sj2jo08xg")
 
 ### Read in electricity data ### 
 
-country <- readline("Type in which country you would like to analyze. Currently available: World, Democratic Republic of the Congo, 
-                    Ethiopia, Turkmenistan, Myanmar, Mongolia, & Uzbekistan. If you would like to keep all of the data, please type in 'All'")
+country <- readline("Type in which country you would like to analyze. Currently available: 
+                    World, Democratic Republic of the Congo, 
+                    Ethiopia, Turkmenistan, Myanmar, Mongolia, & Uzbekistan. 
+                    If you would like to keep all of the data, please type in 'All'")
 
 #file_location <- file.choose()
 file_location <- paste0("C:\\Users\\Amina\\Documents\\Global Energy Analysis\\SIRF 2016\\ElectricStats_All_08_2016_IEA.csv")
@@ -38,6 +41,16 @@ if(country != "All" || country != 'all') {
   oil_data <- oil_data[which(oil_data$COUNTRY == country),]
 }
 
+### Read in Renewable Data ### 
+
+file_location <- paste0("C:\\Users\\Amina\\Documents\\Global Energy Analysis\\SIRF 2016\\RenewableStats_All_08_2016_IEA.csv")
+orig_renew_data <- read.csv(file_location, header = TRUE, strip.white = TRUE, check.names = FALSE)
+
+renew_data <- orig_renew_data
+if(country != "All" || country != 'all') {
+  renew_data <- renew_data[which(renew_data$COUNTRY == country),]
+}
+
 ### Adjust types for NA and 0 values ###
 reval <- function(y) {
   revalue(y, c("x" = NA))
@@ -49,5 +62,9 @@ reval <- function(y) {
 revaled_elec <- as.data.frame(apply(electric_data[,4:71], 2, 
                                     function (y) (reval(as.character(y)))))
 
+revaled_renew <- as.data.frame(apply(renew_data[,5:30], 2, 
+                                    function (y) (reval(as.character(y)))))
+
 #Create final dataframe for use with other scripts
 electric_data <- cbind(electric_data[,1:3],revaled_elec)
+renew_data <- cbind(renew_data[,1:4], revaled_renew[,1:25])
