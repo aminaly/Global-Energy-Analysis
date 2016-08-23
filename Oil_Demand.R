@@ -1,41 +1,94 @@
-## Used to summarize oil demand data and create visuals for plotly
-## For use with countries with data taken from IEA world Energy Statistics - Oil Demand Data
-## Data must be pulled from 1980-2015 (relevant for agg functions). If date range changed, adjust aggregation
-source('~/Global Energy Analysis/Project 2 - Current/EnergyAnalysis/Parent_Source.R')
+# Used to create visuals from aggregated oil demand data for all analyzed countries
+# For use with databases created with the Oil_Demand_Formatter file
+# Does not source parent file, largely stands apart from remainder of files
 
-### Reformat Data ###
+### General Settings ###
 
-oil_data <- melt(oil_data, id.vars = c("COUNTRY", "FLOW (kbbl/d)", "PRODUCT"))
-colnames(oil_data) <- c("COUNTRY", "FLOW (kbbl/d)", "PRODUCT", "TIME", "DEMAND")
+# dependencies 
+rm(list = ls())
+require(xlsx)
+require(reshape2)
+require(plyr)
+require(plotly)
+require(data.table)
+require(RColorBrewer)
 
-### Adding column for growth rate from the previous year ###
-oil_data$Growth_Rate <- NA
-oil_data$DEMAND <- as.numeric(oil_data$DEMAND)
-for (i in 1:(nrow(oil_data)-1)) {
+# Set environment to allow data to be pushed to plot_ly
+Sys.setenv("plotly_username"="amina.ly")
+Sys.setenv("plotly_api_key"="7sj2jo08xg")
+
+# Read in aggregated oil information
+file_location <- paste0("C:\\Users\\Amina\\Documents\\Global Energy Analysis\\SIRF 2016\\OilDemand_AllCountries_08_2016_Agg.csv")
+agg_oil_data <- read.csv(file_location, header = TRUE, strip.white = TRUE, check.names = FALSE)
+
+#Read in GDP Data for inclusiong with oil demand data
+file_location <- paste0("C:\\Users\\Amina\\Documents\\Global Energy Analysis\\SIRF 2016\\GDPGRowth_WorldBank_5_8_2016.csv")
+GDP_Growth_Rate_data <- read.csv(file_location, header = TRUE, strip.white = TRUE, check.names = FALSE)
+
+### Aggregate every 2 years (average) ###
+
+agg_gdprate <- NULL
+gdps <- unique(GDP_Growth_Rate_data$`Country Name`)
+
+for(j in 1:length(gdps)) {
   
-  oil_data[i+1,6] <- (((oil_data[i+1,5]/oil_data[i,5])^(.1)) - 1) 
-  
-}
+  temp <- GDP_Growth_Rate_data[which(GDP_Growth_Rate_data$`Country Name` == gdps[j]),] 
+  numrows <- nrow(temp)
+  agg_temp <- NULL
 
-### Aggregate every 3 years (average) ###
-
-agg_oil <- NULL
-numrows <- nrow(oil_data)
-
-#first for loop does the same operation for each flow type
-for(i in seq(1, numrows, 3)) {
-  
+  for(i in seq(1, numrows, 2)) {
+    
     #separate out parts of data to be combined
-    DEMAND <- mean(as.numeric(oil_data[i:(i+2),ncol(oil_data)]), na.rm = TRUE)
-
+    Average_Rate <- mean(as.numeric(temp[i:(i+1),ncol(temp)]), na.rm = TRUE)
+    
     #combine with correct ID values
-    id_vals <- oil_data[i,1:4]
-    new_row <- cbind(id_vals, as.data.frame(DEMAND))
-  
+    id_vals <- temp[i,1:5]
+    new_row <- cbind(id_vals, as.data.frame(Average_Rate))
+    
     #add aggregated flow to new table
-    agg_oil <- rbind(agg_oil, new_row)
+    agg_temp <- rbind(agg_temp, new_row)
+    
+  }
+  
+  agg_gdprate <- rbind(agg_gdprate, agg_temp)
+  
 }
 
+# Adjust colun names for Join
+colnames(agg_gdprate) <- c("COUNTRY", "FLOW", "PRODUCT", "CODE", "TIME", "GDP_Growth_Rate")
+
+# Join data together 
+agg_gdp_oil <- join(agg_oil_data, agg_gdprate, by = c("TIME", "COUNTRY"), type = "right")
+
+#Remove data points without x value
+agg_gdp_oil$todrop <- !(is.na(agg_gdp_oil$DEMAND))
+agg_gdp_oil$todrop <- !(is.na(agg_gdp_oil$GDP_Growth_Rate))
+
+agg_gdp_oil <- agg_gdp_oil[drop(agg_gdp_oil$todrop),]
+
+#Adjust demand values 
+agg_gdp_oil$DEMAND <- agg_gdp_oil$DEMAND * 1000
+
+colnames(agg_gdp_oil)[3] <- "Barrels per Day"
+agg_gdp_oil$GDP_Growth_Rate <- as.numeric(agg_gdp_oil$GDP_Growth_Rate)
 
 
-  
+plot1 <- plot_ly(agg_gdp_oil, x = TIME, y = DEMAND, 
+                type = "scatter",
+                mode = "markers",
+                color = COUNTRY,
+                text = paste0("Oil Demand ", DEMAND),
+                marker = list(color = "Dark2"),
+                size = GDP_Growth_Rate)
+
+plot2 <- plot_ly(agg_gdp_oil, x = TIME, y = DEMAND, 
+                 type = "scatter",
+                 mode = "markers",
+                 color = COUNTRY,
+                 text = paste0("Oil Demand ", DEMAND),
+                 marker = list(color = "Dark2"))
+
+plot1
+plot2
+
+#plotly_POST(plot, fileopt = "overwrite", filename="Oil Demand", sharing = "private")
