@@ -1,0 +1,25 @@
+{
+    "contents" : "",
+    "created" : 1468330408542.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "CF5800FB",
+    "lastKnownWriteTime" : 1468330377,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "wg3hdadmlj",
+        "caption" : "as.data.frame(summaries)",
+        "contentUrl" : "grid_resource/gridviewer.html?env=_rs_no_env&obj=&cache_key=wg3hdadmlj",
+        "displayedObservations" : 169,
+        "environment" : "_rs_no_env",
+        "object" : "",
+        "totalObservations" : 169,
+        "variables" : 1
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

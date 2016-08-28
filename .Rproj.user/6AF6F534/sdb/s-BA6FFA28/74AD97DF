@@ -1,0 +1,25 @@
+{
+    "contents" : "",
+    "created" : 1468333803649.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "74AD97DF",
+    "lastKnownWriteTime" : 21392300099829876,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "gka5qa7hu1",
+        "caption" : "DomesticTable",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=DomesticTable&cache_key=gka5qa7hu1",
+        "displayedObservations" : 9295,
+        "environment" : "",
+        "object" : "DomesticTable",
+        "totalObservations" : 9295,
+        "variables" : 4
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

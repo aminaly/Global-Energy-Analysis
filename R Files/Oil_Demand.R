@@ -3,19 +3,7 @@
 # Does not source parent file, largely stands apart from remainder of files
 
 ### General Settings ###
-
-# dependencies 
-rm(list = ls())
-require(xlsx)
-require(reshape2)
-require(plyr)
-require(plotly)
-require(data.table)
-require(RColorBrewer)
-
-# Set environment to allow data to be pushed to plot_ly
-Sys.setenv("plotly_username"="amina.ly")
-Sys.setenv("plotly_api_key"="7sj2jo08xg")
+source('~/Global Energy Analysis/Project 2 - Current/EnergyAnalysis/Parent_Source.R')
 
 # Read in aggregated oil information
 file_location <- paste0("C:\\Users\\Amina\\Documents\\Global Energy Analysis\\SIRF 2016\\OilDemand_AllCountries_08_2016_Agg.csv")
@@ -81,14 +69,6 @@ plot1 <- plot_ly(agg_gdp_oil, x = TIME, y = DEMAND,
                 marker = list(color = "Dark2"),
                 size = GDP_Growth_Rate)
 
-plot2 <- plot_ly(agg_gdp_oil, x = TIME, y = DEMAND, 
-                 type = "scatter",
-                 mode = "markers",
-                 color = COUNTRY,
-                 text = paste0("Oil Demand ", DEMAND),
-                 marker = list(color = "Dark2"))
-
 plot1
-plot2
 
-#plotly_POST(plot, fileopt = "overwrite", filename="Oil Demand", sharing = "private")
+#plotly_POST(plot1, fileopt = "overwrite", filename="Oil Demand", sharing = "private")

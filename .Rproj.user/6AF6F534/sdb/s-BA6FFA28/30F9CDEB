@@ -1,0 +1,18 @@
+{
+    "contents" : "require(plotly)\nrequire(reshape2)\nrequire(reshapeGUI)\nrequire(gWidgetsRGtk2)\nrequire(xlsx)\nrequire(psych)\n\nrm(list = ls())\n\n######## Electric Usage Analysis ########\n\n### Total Electric Output Global\n### Source: IEA\n### Last Updated: 06/2016\n\n############ Read in data ############\nprint(\"Open Total Electric Output 06_2016\")\nfile_location <- file.choose()\norig_data <- read.csv(file_location, header = TRUE)\n\nworking <- orig_data\n\n############ Show list of potential summarizing countries ############\nsummaries <- unique(working$COUNTRY)\nView(as.data.frame(summaries))\nselected <- readline(\"Which country/group would you like to summarize by? If none, and you would like to just \n                     see a global numbers, type in 'skip'\")\n\n#plot data based on selected country\n# select individual country for plotting etc \nif(country == \"skip\") country <- \"World\"\n\n#group by selected country\ngroup <- working[working$COUNTRY %in% country,]\n\n#save out plotting data\nplotting <- plot_ly(data = group, x = TIME, y = Electricity..GWh., type = \"scatter\",\n                    mode = 'markers',name = \"Consumption\", color = FLOW) \nplotting\n\n############ Print out summary for the country ############\nsummaries <- as.data.frame(summaries[13:154])\n\nfor(i in 1:142) {\n  \n  cur_country <- summaries[i,]\n  temp <- working[working$COUNTRY %in% cur_country,]\n  \n  desc <- describeBy(temp,group = \"FLOW\",mat=TRUE)\n  desc <- desc[13:16,]\n\n}\n\n############ Post data onto my Plotly Online Account ############\n#plotly_POST(plotting, fileopt = \"overwrite\", sharing = \"public\" )\n",
+    "created" : 1467069590356.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1192444912",
+    "id" : "30F9CDEB",
+    "lastKnownWriteTime" : 1468340851,
+    "path" : "~/Global Energy Analysis/Project 2 - Current/EnergyAnalysis/Summarize_DemandxTime.R",
+    "project_path" : "Summarize_DemandxTime.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

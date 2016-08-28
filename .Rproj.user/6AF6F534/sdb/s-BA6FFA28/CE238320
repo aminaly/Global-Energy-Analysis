@@ -1,0 +1,25 @@
+{
+    "contents" : "",
+    "created" : 1468334127592.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "CE238320",
+    "lastKnownWriteTime" : 21392300099829876,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "ajxwexusnh",
+        "caption" : "IndustryTable",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=IndustryTable&cache_key=ajxwexusnh",
+        "displayedObservations" : 9295,
+        "environment" : "",
+        "object" : "IndustryTable",
+        "totalObservations" : 9295,
+        "variables" : 4
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

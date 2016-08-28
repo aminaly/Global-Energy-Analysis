@@ -1,6 +1,8 @@
 ## Energy Source Summaries
 
 source('~/Global Energy Analysis/Project 2 - Current/EnergyAnalysis/Parent_Source.R')
+source('~/Global Energy Analysis/Project 2 - Current/EnergyAnalysis/Data_Read_Source.R')
+
 
 ### Melt data for years label ###
 renew_data <- melt(renew_data, id.vars = c("UNITS", "COUNTRY", "PRODUCT", "FLOW"))
