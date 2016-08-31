@@ -1,5 +1,5 @@
 ## Create map with details on countries used based on metadata database
-source('~/Global Energy Analysis/Project 2 - Current/EnergyAnalysis/Parent_Source.R')
+source('~/Global Energy Analysis/Project 2 - Current/EnergyAnalysis/R Files/Parent_Source.R')
 
 file_location <- "C:\\Users\\Amina\\Documents\\Global Energy Analysis\\SIRF 2016\\Country_Metadata.csv"
 map_data <- read.csv(file_location, check.names = FALSE, strip.white = TRUE, header = TRUE)

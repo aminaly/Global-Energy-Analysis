@@ -1,7 +1,7 @@
 ## Energy Source Summaries
 
-source('~/Global Energy Analysis/Project 2 - Current/EnergyAnalysis/Parent_Source.R')
-source('~/Global Energy Analysis/Project 2 - Current/EnergyAnalysis/Data_Read_Source.R')
+source('~/Global Energy Analysis/Project 2 - Current/EnergyAnalysis/R Files/Parent_Source.R')
+source('~/Global Energy Analysis/Project 2 - Current/EnergyAnalysis/R Files/Data_Read_Source.R')
 
 
 ### Melt data for years label ###
@@ -68,9 +68,12 @@ renewables_plot <- plot_ly(data = renew_data, x = YEAR, y = PRODUCT, z = agg_sup
                            type = "scatter3d", 
                            mode = "line", 
                            color = PRODUCT,
-                           marker = list(color = "Spectral"))
+                           marker = list(color = "Spectral"))%>% 
+  layout(title = paste0('Renewable Energy Source Summary',
+                        '<br>Source:<a href="http://data.iea.org/payment/products/118-world-energy-statistics-2016-edition.aspx">
+                        World Energy Statistics 2016</a>'))
 
 renewables_plot
 
-plotly_POST(renewables_plot, fileopt = "overwrite", filename="DRC/Renewables", sharing = "private")
+plotly_POST(renewables_plot, fileopt = "overwrite", filename="Turkmenistan/Renewables", sharing = "private")
 

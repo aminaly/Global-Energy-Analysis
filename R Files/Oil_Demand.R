@@ -3,7 +3,7 @@
 # Does not source parent file, largely stands apart from remainder of files
 
 ### General Settings ###
-source('~/Global Energy Analysis/Project 2 - Current/EnergyAnalysis/Parent_Source.R')
+source('~/Global Energy Analysis/Project 2 - Current/EnergyAnalysis/R Files/Parent_Source.R')
 
 # Read in aggregated oil information
 file_location <- paste0("C:\\Users\\Amina\\Documents\\Global Energy Analysis\\SIRF 2016\\OilDemand_AllCountries_08_2016_Agg.csv")
